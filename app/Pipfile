@@ -4,8 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pydantic = "==1.9.0"
+pydantic = {extras = ["email"], version = "*"}
 mongoengine = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = {extras = ["bcrypt"], version = "*"}
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+pytest = "*"
 
 [dev-packages]
 

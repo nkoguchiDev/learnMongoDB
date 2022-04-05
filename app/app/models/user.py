@@ -1,22 +1,14 @@
 from mongoengine import (
     Document,
-    EmbeddedDocument,
     StringField,
-    IntField,
-    DateTimeField,
-    ListField,
-    EmbeddedDocumentField,
-    BooleanField)
-
-name = StringField(required=True)
-age = IntField(required=False)
+    BooleanField,
+    UUIDField)
 
 
-class User(Base):
-    id = StringField(required=True)
+class User(Document):
+    uuid = StringField(required=True)
     full_name = StringField(required=True)
     email = StringField(required=True)
     hashed_password = StringField(required=True)
     is_active = BooleanField(required=True)
-    is_superuser = BooleanField(required=True)
-    # items = relationship("Item", back_populates="owner")
+    is_superuser = BooleanField(required=False, default=False)
