@@ -25,6 +25,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         return db_obj
 
     def update(self,
+               uuid: str,
                db_obj: User,
                obj_in: Union[UserUpdate, Dict[str, Any]]) -> User:
         if isinstance(obj_in, dict):
@@ -35,7 +36,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             hashed_password = get_password_hash(update_data["password"])
             del update_data["password"]
             update_data["hashed_password"] = hashed_password
-        return super().update(db_obj=db_obj, obj_in=update_data)
+        return super().update(uuid=uuid, db_obj=db_obj, obj_in=update_data)
 
     def authenticate(self, *,
                      email: str,

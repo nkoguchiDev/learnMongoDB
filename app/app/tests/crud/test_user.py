@@ -89,8 +89,11 @@ def test_update_user() -> None:
     user = crud.user.create(obj_in=user_in)
     new_password = random_lower_string()
     user_in_update = UserUpdate(password=new_password, is_superuser=True)
-    crud.user.update(db_obj=user, obj_in=user_in_update)
+    crud.user.update(uuid=user.uuid, db_obj=user, obj_in=user_in_update)
     user_2 = crud.user.get(uuid=user.uuid)
     assert user_2
     assert user.email == user_2.email
+    assert user.full_name == user_2.full_name
+    assert user.is_superuser == user_2.is_superuser
+    assert user.is_active == user_2.is_active
     assert verify_password(new_password, user_2.hashed_password)

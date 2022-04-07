@@ -20,11 +20,12 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
-    def get(self, uuid: Any) -> Optional[ModelType]:
+    def get(self, uuid: str) -> Optional[ModelType]:
         return self.model.objects.filter(uuid=uuid).first()
 
     def update(
         self, *,
+        uuid: str,
         db_obj: ModelType,
         obj_in: Union[UpdateSchemaType, Dict[str, Any]]
     ) -> ModelType:
@@ -36,7 +37,4 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
-        return db_obj
+        return self.model.objects.filter(uuid=uuid).update(**obj_in)
